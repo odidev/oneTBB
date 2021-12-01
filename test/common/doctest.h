@@ -83,6 +83,9 @@
         !defined(__INTEL_COMPILER)
 #define DOCTEST_GCC DOCTEST_COMPILER(__GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
 #endif // GCC
+#if defined(__INTEL_COMPILER)
+#define DOCTEST_ICC DOCTEST_COMPILER(__INTEL_COMPILER / 100, __INTEL_COMPILER % 100, __INTEL_COMPILER % 10000)
+#endif // ICC
 
 #ifndef DOCTEST_MSVC
 #define DOCTEST_MSVC 0
@@ -93,6 +96,9 @@
 #ifndef DOCTEST_GCC
 #define DOCTEST_GCC 0
 #endif // DOCTEST_GCC
+#ifndef DOCTEST_ICC
+#define DOCTEST_ICC 0
+#endif // DOCTEST_ICC
 
 // =================================================================================================
 // == COMPILER WARNINGS HELPERS ====================================================================
@@ -316,6 +322,12 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
 #define DOCTEST_UNUSED __attribute__((unused))
 #define DOCTEST_ALIGNMENT(x) __attribute__((aligned(x)))
 #endif
+
+// Work-around for the warning: 'routine is both "inline" and "noinline"'
+#if DOCTEST_ICC
+#undef DOCTEST_NOINLINE
+#define DOCTEST_NOINLINE
+#endif // ICC
 
 #ifndef DOCTEST_NORETURN
 #define DOCTEST_NORETURN [[noreturn]]
@@ -1091,7 +1103,11 @@ DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wunused-comparison")
 // If not it doesn't find the operator or if the operator at global scope is defined after
 // this template, the template won't be instantiated due to SFINAE. Once the template is not
 // instantiated it can look for global operator using normal conversions.
+#if !DOCTEST_ICC
 #define SFINAE_OP(ret,op) decltype((void)(doctest::detail::declval<L>() op doctest::detail::declval<R>()),ret{})
+#else
+#define SFINAE_OP(ret,op) ret
+#endif
 
 #define DOCTEST_DO_BINARY_EXPRESSION_COMPARISON(op, op_str, op_macro)                              \
     template <typename R>                                                                          \
