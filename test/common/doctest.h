@@ -473,6 +473,7 @@ namespace doctest {
 DOCTEST_INTERFACE extern bool is_running_in_test;
 
 #if _MSC_VER
+template<typename T>
 struct doctest_thread_local_wrapper {
     doctest_thread_local_wrapper() {
         // Default definition is ill-formed in case of non-trivial type T.
