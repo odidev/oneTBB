@@ -6031,7 +6031,7 @@ namespace {
         g_no_colors   = false;                                                                     \
         ConsoleReporter::func(arg);                                                                \
         if(wrapped_oss.get().tellp() != std::streampos{}) {                                        \
-            DOCTEST_OUTPUT_DEBUG_STRING(oss.str().c_str());                                        \
+            DOCTEST_OUTPUT_DEBUG_STRING(wrapped_oss.get().str().c_str());                          \
             wrapped_oss.get().str("");                                                             \
         }                                                                                          \
         g_no_colors = with_col;                                                                    \
