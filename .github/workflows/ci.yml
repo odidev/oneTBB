@@ -56,6 +56,8 @@ jobs:
         run: |
           set -x
           mkdir build && cd build
+          pwd
+          ls
           cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} ..
           make VERBOSE=1 -j${BUILD_CONCURRENCY}
@@ -96,6 +98,8 @@ jobs:
               apt-get install -y cmake && \
               set -x && \
               mkdir build && cd build && \
+              pwd && \
+              ls &&\
               cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                 -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} .. && \
               make VERBOSE=1 -j${BUILD_CONCURRENCY} && \
