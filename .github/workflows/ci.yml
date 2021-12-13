@@ -43,12 +43,7 @@ jobs:
             std: 17
             build_type: release
             preview: 'ON'
-          - os: ubuntu-20.04
-            c_compiler: gcc-10
-            cxx_compiler: g++-10
-            std: 20
-            build_type: debug
-            preview: 'ON'
+          
     steps:
       - uses: actions/checkout@v2
       - name: Run testing
@@ -77,12 +72,7 @@ jobs:
             std: 17
             build_type: release
             preview: 'ON'
-          - os: ubuntu-20.04
-            c_compiler: gcc-10
-            cxx_compiler: g++-10
-            std: 20
-            build_type: debug
-            preview: 'ON'     
+               
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
@@ -95,6 +85,7 @@ jobs:
               bash -exc 'apt update && \
               apt install -y python3.8 && \
               apt-get update && \
+              apt-get install -y g++ && \
               apt-get install -y cmake && \
               set -x && \
               mkdir build && cd build && \
