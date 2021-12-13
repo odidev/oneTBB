@@ -94,8 +94,8 @@ jobs:
               whereis cmake && \
               pwd && \
               ls &&\
-              cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} .. && \
+              cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=release \ 
+                -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DTBB_CPF=ON .. && \
               make VERBOSE=1 -j2 && \
               ctest --timeout 180 --output-on-failure && \
               deactivate'
