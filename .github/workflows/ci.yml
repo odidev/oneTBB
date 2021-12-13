@@ -56,6 +56,7 @@ jobs:
           cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} ..
           make VERBOSE=1 -j${BUILD_CONCURRENCY}
+          whereis cmake
           ctest --timeout ${TEST_TIMEOUT} --output-on-failure
 
   linux-examples-testing_arm64:
@@ -94,5 +95,6 @@ jobs:
               cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                 -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} .. && \
               make VERBOSE=1 -j${BUILD_CONCURRENCY} && \
+              whereis cmake && \
               ctest --timeout ${TEST_TIMEOUT} --output-on-failure && \
               deactivate'
