@@ -38,12 +38,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-18.04
-            c_compiler: gcc
-            cxx_compiler: g++
-            std: 14
-            build_type: relwithdebinfo
-            preview: 'OFF'
           - os: ubuntu-20.04
             c_compiler: gcc
             cxx_compiler: g++
@@ -68,4 +62,43 @@ jobs:
             -DTBB_CPF=${{ matrix.preview }} -DTBB_TEST=OFF -DTBB_EXAMPLES=ON ..
           cmake --build . -v --target light_test_examples
 
-  
+  linux-examples-testing_arm64:
+    name: Build and Test for arm64
+    runs-on: ubuntu-20.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            c_compiler: gcc
+            cxx_compiler: g++
+            std: 17
+            build_type: release
+            preview: 'ON'
+          - os: ubuntu-20.04
+            c_compiler: gcc-10
+            cxx_compiler: g++-10
+            std: 20
+            build_type: debug
+            preview: 'ON'     
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+      - name: Install and test oneTBB
+        run: |
+            docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+              arm64v8/ubuntu:20.04 \
+              bash -exc 'apt update && \
+              apt install -y python3.8 && \
+              python3 -m pip install --upgrade pip && \
+              apt-get update && \
+              set -x && \
+              mkdir build && cd build && \
+              cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} && \
+              -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} && \
+              -DTBB_CPF=${{ matrix.preview }} -DTBB_TEST=OFF -DTBB_EXAMPLES=ON ..
+              cmake --build . -v --target light_test_examples && \
+              deactivate'
