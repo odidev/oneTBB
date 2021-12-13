@@ -93,7 +93,7 @@ jobs:
               bash -exc 'apt update && \
               apt install -y python3.8 && \
               apt-get update && \
-              apt-get install cmake && \
+              apt-get install -y cmake && \
               set -x && \
               mkdir build && cd build && \
               cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} && \
