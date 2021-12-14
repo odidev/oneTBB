@@ -50,10 +50,8 @@ jobs:
         shell: bash
         run: |
           set -x
-          mkdir build && cd build
+          mkdir build && pwd && ls && cd build
           whereis cmake
-          pwd
-          ls
           cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} ..
           make VERBOSE=1 -j${BUILD_CONCURRENCY}
@@ -90,10 +88,8 @@ jobs:
               apt-get install -y g++ && \
               apt-get install -y cmake && \
               set -x && \
-              mkdir build && cd build && \
+              mkdir build && pwd && ls && cd build && \
               whereis cmake && \
-              pwd && \
-              ls &&\
               cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=release \ 
                 -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DTBB_CPF=ON .. && \
               make VERBOSE=1 -j2 && \
