@@ -94,5 +94,7 @@ jobs:
               cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} .. && \
               echo "running cmake now" && \
               make VERBOSE=1 -j${BUILD_CONCURRENCY} && \
+              echo "cmake ran properly" && \
               ctest --timeout ${TEST_TIMEOUT} --output-on-failure && \
+              echo "test ran properly" && \
               deactivate'
