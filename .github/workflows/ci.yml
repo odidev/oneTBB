@@ -90,8 +90,9 @@ jobs:
               set -x && \
               mkdir build && pwd && ls && cd build && ls && \
               whereis cmake && \
-              cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \ 
-                -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} && \
+              echo " going to run cmake" && \
+              cmake -DCMAKE_CXX_STANDARD=${{ matrix.std }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DTBB_CPF=${{ matrix.preview }} .. && \
+              echo "running cmake now" && \
               make VERBOSE=1 -j${BUILD_CONCURRENCY} && \
               ctest --timeout ${TEST_TIMEOUT} --output-on-failure && \
               deactivate'
