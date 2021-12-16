@@ -95,6 +95,6 @@ jobs:
               echo "running cmake now" && \
               make VERBOSE=1 -j4 && \
               echo "cmake ran properly" && \
-              ctest --output-on-failure && \
+              ctest --timeout ${TEST_TIMEOUT} --output-on-failure && \
               echo "test ran properly" && \
               deactivate'
